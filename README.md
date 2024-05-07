@@ -2,5 +2,5 @@
 Monorepo for React applications
 
 ## Fantarka Music
-Website for [Fantarka Music](www.fantarka.com)
+Website for [Fantarka Music](https://www.fantarka.com)
 
