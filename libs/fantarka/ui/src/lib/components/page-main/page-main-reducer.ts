@@ -1,7 +1,46 @@
 import { useEffect, useReducer, useState } from 'react';
 
 import { useAudioPlayer, useInterval, useScrollPosition } from '@dctjs-monorepo/shared-ui';
-import { Track, LOCAL_TRACKS } from '../../interfaces';
+import { Track } from '../../interfaces';
+
+const LOCAL_TRACKS: Track[] = [
+  {
+    title: 'Get Funky',
+    artwork_url: '/assets/images/get-funky-final.webp',
+    stream_url: '/assets/audio/wave/get-funky-2023.wav',
+    description: 'Ambient track',
+  },
+  {
+    title: 'Above the clouds',
+    artwork_url: '/assets/images/above-the-clouds.webp',
+    stream_url: '/assets/audio/above-the-clouds-2023.wav',
+    description: 'Ambient track',
+  },
+  {
+    title: 'Give you love',
+    artwork_url: '/assets/images/give-you-love.webp',
+    stream_url: '/assets/audio/give-you-love-2023.wav',
+    description: 'Ambient track',
+  },
+  {
+    title: 'Herm',
+    artwork_url: '/assets/images/fantarka.webp',
+    stream_url: '/assets/audio/herm.ma4',
+    description: 'Ambient track',
+  },
+  {
+    title: 'So good',
+    artwork_url: '/assets/images/so-good.webp',
+    stream_url: '/assets/audio/so-good.wav',
+    description: 'Ambient track',
+  },
+  {
+    title: 'Solarium',
+    artwork_url: '/assets/images/solar.webp',
+    stream_url: '/assets/audio/solarium.ma4',
+    description: 'Uplifting Old School style dance track with a modern twist!',
+  },
+];
 
 interface PageMainState {
   activeTitle: number;
