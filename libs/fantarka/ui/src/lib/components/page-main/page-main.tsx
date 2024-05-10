@@ -27,9 +27,10 @@ export const PageMain = (props: PageMainProps) => {
       />
       <BackgroundImage
         imageUrl={state.tracks[state.activeTrack].artwork_url}
-        totalPixelContainers={100}
+        totalPixelContainers={50}
+        onLoadComplete={()=> dispatch({ type: PageMainActions.TITLES_ACTIVE, payload: 'active' })}
       />
-      {state.titlesActive && (
+      {state.titlesActive === 'active' && (
         <BackgroundText inputText={state.tracks[state.activeTitle].title} />
       )}
 

@@ -18,9 +18,9 @@ interface SectionMusicProps {
 }
 
 export const SectionMusic: React.FC<SectionMusicProps> = ({activeTrack, playerActive, tracks, playTrack}) => {
-  const handleClick = (e: React.MouseEvent, idx: number) => {
-    e.preventDefault();
-    e.stopPropagation();
+  const handleClick = (event: React.MouseEvent, idx: number) => {
+    event.preventDefault();
+    event.stopPropagation();
     playTrack(idx);
   };
   
@@ -28,7 +28,7 @@ export const SectionMusic: React.FC<SectionMusicProps> = ({activeTrack, playerAc
     tracks.map((track: Track, idx: number) => {
       return (
         <DctCard
-          className="border min-w-[350px] hover:border-[#317caa] text-red-50 focus-within:text-black focus:text-black"
+          className="border min-w-[390px] hover:border-[#317caa] focus-within:text-black focus:text-black"
           border="outlined"
           href="#"
           onClick={(event) => handleClick(event, idx)}
@@ -37,9 +37,9 @@ export const SectionMusic: React.FC<SectionMusicProps> = ({activeTrack, playerAc
           <DctRipple />
           <DctCardContent>
             <div className="flex flex-row items-center justify-start gap-x-4">
-              {activeTrack === idx && playerActive && (<MdStopCircle size={35} />)}
-              {(activeTrack !== idx || !playerActive) && (<MdPlayCircle size={35} />)}
-              <p>{track.title}</p>
+              {activeTrack === idx && playerActive && (<MdStopCircle size={30} />)}
+              {(activeTrack !== idx || !playerActive) && (<MdPlayCircle size={30} />)}
+              <p className="text-xl leading-5 text-center pt-[3px]">{track.title}</p>
               {activeTrack === idx && playerActive && (
                 <Audio
                   height="30"
@@ -47,7 +47,6 @@ export const SectionMusic: React.FC<SectionMusicProps> = ({activeTrack, playerAc
                   color="#317caa"
                   ariaLabel="audio-loading"
                   wrapperClass="ml-auto"
-                  // visible={true}
                 />
               )}
             </div>
@@ -57,7 +56,7 @@ export const SectionMusic: React.FC<SectionMusicProps> = ({activeTrack, playerAc
     });
 
   return (
-    <section>
+    <section id="music">
       <h2 className="font-sans text-center text-white text-2xl pt-4 pb-8">
         Music
       </h2>

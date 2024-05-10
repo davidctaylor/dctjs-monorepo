@@ -1,0 +1,21 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: "AWS::Serverless-2016-10-31"
+Description: ""
+Parameters: 
+  ShouldCreateBucketInputParameter: 
+    Type: "String"
+    AllowedValues: 
+    - "true"
+    - "false"
+    Description: "If true then the S3 bucket that will be proxied will be created with the CloudFormation stack."
+Conditions: 
+  CreateS3Bucket: 
+    Fn::Equals: 
+    - Ref: "ShouldCreateBucketInputParameter"
+    - "true"
+Resources: 
+  SerialNumberBucketResource: 
+    Type: "AWS::S3::Bucket"
+    Condition: "CreateS3Bucket"
+    Properties: 
+      AccessControl: "Private"

@@ -1,8 +1,10 @@
-import React, { useRef, useEffect, useState, useContext } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
+import { useMediaQuery } from 'react-responsive';
 
 export interface BackgroundImageProps {
   imageUrl: string | null;
   totalPixelContainers: number;
+  onLoadComplete: () => void;
 }
 
 interface PixelContainer {
@@ -13,7 +15,12 @@ interface PixelContainer {
   activeY: number;
 }
 
-const animateLoad = (ctx: any, pixels: PixelContainer[], pixelSize: number) => {
+const animateLoad = (
+  ctx: any,
+  pixels: PixelContainer[],
+  pixelSize: number,
+  onLoadComplete: () => void
+) => {
   let allReturned = true;
   pixels.forEach((container) => {
     if (
@@ -21,7 +28,6 @@ const animateLoad = (ctx: any, pixels: PixelContainer[], pixelSize: number) => {
       Math.abs(container.activeY - container.y) > 0.1
     ) {
       allReturned = false;
-      // console.log('XXX ',  Math.random() * 0.1);
       container.activeX +=
         (container.x - container.activeX) * Math.random() * 0.4;
       container.activeY +=
@@ -39,14 +45,19 @@ const animateLoad = (ctx: any, pixels: PixelContainer[], pixelSize: number) => {
   });
 
   if (!allReturned) {
-    requestAnimationFrame(() => animateLoad(ctx, pixels, pixelSize));
+    requestAnimationFrame(() =>
+      animateLoad(ctx, pixels, pixelSize, onLoadComplete)
+    );
+  } else {
+    onLoadComplete();
   }
 };
 
 const animateUpdate = (
   ctx: any,
   pixels: PixelContainer[],
-  pixelSize: number
+  pixelSize: number,
+  onLoadComplete: () => void
 ) => {
   const displayPixels: PixelContainer[] = [];
 
@@ -66,13 +77,18 @@ const animateUpdate = (
   });
 
   if (pixels.length > 0) {
-    requestAnimationFrame(() => animateUpdate(ctx, pixels, pixelSize));
+    requestAnimationFrame(() =>
+      animateUpdate(ctx, pixels, pixelSize, onLoadComplete)
+    );
+  } else {
+    onLoadComplete();
   }
 };
 
 export const BackgroundImage: React.FC<BackgroundImageProps> = ({
   imageUrl,
   totalPixelContainers,
+  onLoadComplete,
 }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const canvasData = useRef<{
@@ -82,64 +98,81 @@ export const BackgroundImage: React.FC<BackgroundImageProps> = ({
   } | null>(null);
   const canvasRefHidden = useRef<HTMLCanvasElement>(null);
   const canvasInitialized = useRef<boolean>(false);
+  const [imageData, setImageData] = useState<{
+    image: HTMLImageElement | undefined;
+    animate: boolean;
+  }>();
   const [pixels, setPixels] = useState<PixelContainer[]>([]);
+  const isLandscape = useMediaQuery({ query: '(orientation: lanscape)' });
+  const isTabletOrMobile = useMediaQuery({ query: '(max-width: 1024px)' });
+
+  useEffect(() => {
+    if (!imageUrl) {
+      return;
+    }
+
+    const img = new Image();
+    img.onload = () =>
+      setImageData({ image: img, animate: !isLandscape && !isTabletOrMobile });
+    img.src = imageUrl;
+    img.width = 500;
+    img.height = 500;
+  }, [imageUrl, isLandscape, isTabletOrMobile]);
 
   useEffect(() => {
     const canvas = canvasRefHidden.current;
 
-    if (!canvas || !imageUrl) {
+    if (!canvas || !imageData || !imageData.image || !imageData.animate) {
       return;
     }
 
-    const ctx = canvas.getContext('2d', { willReadFrequently: true });
+    const ctx = canvas.getContext('2d', { willReadFrequently: false });
     if (!ctx) {
       return;
     }
 
     const pixelContainers: PixelContainer[] = [];
 
-    const image = new Image();
-    image.onload = () => {
-      canvas.width = image.width;
-      canvas.height = image.height;
-      const pixelSize = canvas.width / totalPixelContainers;
-      const centerX = canvas.width / 2;
-      const centerY = canvas.height / 2;
+    canvas.width = imageData.image.width;
+    canvas.height = imageData.image.height;
+    const pixelSize = canvas.width / totalPixelContainers;
+    const centerX = canvas.width / 2;
+    const centerY = canvas.height / 2;
 
-      canvasData.current = {
-        width: canvas.width,
-        height: canvas.height,
-        pixelSize,
-      };
-
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
-
-      for (let y = 0; y < totalPixelContainers; y++) {
-        for (let x = 0; x < totalPixelContainers; x++) {
-          const posX = x * pixelSize;
-          const posY = y * pixelSize;
-          const pixelData = ctx.getImageData(posX, posY, pixelSize, pixelSize);
-
-          pixelContainers.push({
-            x: posX,
-            y: posY,
-            pixelData: pixelData,
-            activeX: centerX,
-            activeY: centerY,
-          });
-        }
-      }
-      setPixels(pixelContainers);
-      // ctx.clearRect(0, 0, canvas.width, canvas.height);
+    canvasData.current = {
+      width: canvas.width,
+      height: canvas.height,
+      pixelSize,
     };
-    image.src = imageUrl;
-    image.width = 500; ///window.innerWidth;
-    image.height = 500; //window.innerHeight;
-  }, [imageUrl]);
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(imageData.image, 0, 0, canvas.width, canvas.height);
+
+    if (isLandscape || isTabletOrMobile) {
+      return;
+    }
+
+    for (let y = 0; y < totalPixelContainers; y++) {
+      for (let x = 0; x < totalPixelContainers; x++) {
+        const posX = x * pixelSize;
+        const posY = y * pixelSize;
+        const pixelData = ctx.getImageData(posX, posY, pixelSize, pixelSize);
+
+        pixelContainers.push({
+          x: posX,
+          y: posY,
+          pixelData: pixelData,
+          activeX: centerX,
+          activeY: centerY,
+        });
+      }
+    }
+    setPixels(pixelContainers);
+  }, [imageData]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
+
     if (!canvas) {
       return;
     }
@@ -149,21 +182,56 @@ export const BackgroundImage: React.FC<BackgroundImageProps> = ({
       return;
     }
 
-    if (!canvasInitialized.current) {
+    if (!canvasInitialized.current && pixels.length > 0) {
       canvas.width = canvasRefHidden.current?.width || 0;
       canvas.height = canvasRefHidden.current?.height || 0;
     }
 
     if (canvasInitialized.current) {
-      animateUpdate(ctx, pixels, canvasData.current?.pixelSize || 0);
+      animateUpdate(
+        ctx,
+        pixels,
+        canvasData.current?.pixelSize || 0,
+        onLoadComplete
+      );
+      canvasInitialized.current = true;
       return;
     }
     canvasInitialized.current = pixels.length > 0;
 
     requestAnimationFrame(() =>
-      animateLoad(ctx, pixels, canvasData.current?.pixelSize || 0)
+      animateLoad(
+        ctx,
+        pixels,
+        canvasData.current?.pixelSize || 0,
+        onLoadComplete
+      )
     );
   }, [pixels]);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!imageData?.image || imageData.animate) {
+      return;
+    }
+
+    if (!canvas) {
+      return;
+    }
+
+    const ctx = canvas.getContext('2d', { willReadFrequently: true });
+    if (!ctx) {
+      return;
+    }
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    imageData?.image &&
+      ctx.drawImage(imageData.image, 0, 0, canvas.width, canvas.height);
+
+    canvasInitialized.current = true;
+  }, [imageData]);
 
   return (
     <>
@@ -171,7 +239,6 @@ export const BackgroundImage: React.FC<BackgroundImageProps> = ({
         className="w-screen h-screen fixed top-0 left-0 -z-10"
         ref={canvasRef}
       ></canvas>
-
       <canvas
         className="w-screen h-screen fixed top-0 left-[100%] -z-10"
         ref={canvasRefHidden}

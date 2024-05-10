@@ -42,11 +42,12 @@ const LOCAL_TRACKS: Track[] = [
   },
 ];
 
+type TitlesActiveType = 'active' | 'disabled' | 'pending';
 interface PageMainState {
   activeTitle: number;
   activeTrack: number;
   playerActive: boolean;
-  titlesActive: boolean;
+  titlesActive: TitlesActiveType,
   tracks: Track[];
 }
 
@@ -70,7 +71,7 @@ export const usePageMainReducer = (): [
     activeTitle: 0,
     activeTrack: 0,
     playerActive: false,
-    titlesActive: true,
+    titlesActive: 'pending',
     tracks: [...LOCAL_TRACKS],
   });
 
@@ -80,17 +81,17 @@ export const usePageMainReducer = (): [
 
   useEffect(() => {
     if (scrollPosition.y > window.innerHeight / 3) {
-      dispatch({ type: PageMainActions.TITLES_ACTIVE, payload: false });
+      dispatch({ type: PageMainActions.TITLES_ACTIVE, payload: 'disabled' });
       setEnableSrollPosition(false);
     }
   }, [scrollPosition]);
 
-  useInterval(
-    () => {
-      dispatch({ type: PageMainActions.NEXT_TITLE, payload: undefined });
-    },
-    state.titlesActive ? 1000 * 5 : null
-  );
+  // useInterval(
+  //   () => {
+  //     dispatch({ type: PageMainActions.NEXT_TITLE, payload: undefined });
+  //   },
+  //   state.titlesActive === 'active' ? 1000 * 5 : null
+  // );
 
   useAudioPlayer(
     false,
@@ -111,13 +112,13 @@ const pageMainReducer = (state: PageMainState, action: PageMainAction) => {
 
     case PageMainActions.ACTIVE_TRACK: {
       const activeTrack = action.payload as number;
+      const titlesActive = 'disabled' as TitlesActiveType;
       let playerActive = state.activeTrack !== activeTrack;
-      let titlesActive = state.titlesActive;
+
       if (state.activeTrack === activeTrack) {
         playerActive = !state.playerActive;
       } else {
         playerActive = true;
-        titlesActive = false;
       }
       return { ...state, activeTrack, playerActive, titlesActive };
     }
@@ -126,7 +127,7 @@ const pageMainReducer = (state: PageMainState, action: PageMainAction) => {
       return { ...state, playerActive: action.payload as boolean };
 
     case PageMainActions.TITLES_ACTIVE:
-      return { ...state, titlesActive: action.payload as boolean };
+      return { ...state, titlesActive: action.payload as TitlesActiveType };
 
     default: {
       throw Error('Unknown action: ' + action.type);
