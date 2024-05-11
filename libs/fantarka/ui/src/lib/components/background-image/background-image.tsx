@@ -49,7 +49,7 @@ const animateLoad = (
       animateLoad(ctx, pixels, pixelSize, onLoadComplete)
     );
   } else {
-    onLoadComplete();
+    pixels.length > 0 && onLoadComplete();
   }
 };
 
@@ -145,6 +145,7 @@ export const BackgroundImage: React.FC<BackgroundImageProps> = ({
       pixelSize,
     };
 
+    ctx.imageSmoothingEnabled = false;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.drawImage(imageData.image, 0, 0, canvas.width, canvas.height);
 
@@ -226,11 +227,13 @@ export const BackgroundImage: React.FC<BackgroundImageProps> = ({
 
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
+    ctx.imageSmoothingEnabled = false;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     imageData?.image &&
       ctx.drawImage(imageData.image, 0, 0, canvas.width, canvas.height);
 
     canvasInitialized.current = true;
+    onLoadComplete();
   }, [imageData]);
 
   return (

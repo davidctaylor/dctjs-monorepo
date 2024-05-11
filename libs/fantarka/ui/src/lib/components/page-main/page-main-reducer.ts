@@ -86,12 +86,12 @@ export const usePageMainReducer = (): [
     }
   }, [scrollPosition]);
 
-  // useInterval(
-  //   () => {
-  //     dispatch({ type: PageMainActions.NEXT_TITLE, payload: undefined });
-  //   },
-  //   state.titlesActive === 'active' ? 1000 * 5 : null
-  // );
+  useInterval(
+    () => {
+      dispatch({ type: PageMainActions.NEXT_TITLE, payload: undefined });
+    },
+    state.titlesActive === 'active' ? 1000 * 5 : null
+  );
 
   useAudioPlayer(
     false,
@@ -103,6 +103,7 @@ export const usePageMainReducer = (): [
 };
 
 const pageMainReducer = (state: PageMainState, action: PageMainAction) => {
+  
   switch (action.type) {
     case PageMainActions.NEXT_TITLE: {
       let activeTitle = state.activeTitle;
@@ -127,7 +128,7 @@ const pageMainReducer = (state: PageMainState, action: PageMainAction) => {
       return { ...state, playerActive: action.payload as boolean };
 
     case PageMainActions.TITLES_ACTIVE:
-      return { ...state, titlesActive: action.payload as TitlesActiveType };
+      return state.titlesActive === 'disabled' ? state : { ...state, titlesActive: action.payload as TitlesActiveType };
 
     default: {
       throw Error('Unknown action: ' + action.type);
