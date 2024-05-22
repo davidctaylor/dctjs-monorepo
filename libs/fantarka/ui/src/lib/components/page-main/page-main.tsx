@@ -1,50 +1,35 @@
-import { FixedHeader } from '@dctjs-monorepo/shared-ui';
+import { useRef } from 'react';
 
 import { BackgroundImage } from '../background-image/background-image';
-import { BackgroundText } from '../background-text/background-text';
 import { SectionMusic } from '../section-music/section-music';
 import { SectionAbout } from '../section-about/section-about';
-import { usePageMainReducer, PageMainActions } from './page-main-reducer';
 
-import ErrorBoundary2 from './test'
-
+import {
+  PageMainProvider,
+} from './page-main-provider';
 import './page-main.css';
 
 /* eslint-disable-next-line */
 export interface PageMainProps {}
 
 export const PageMain = (props: PageMainProps) => {
-  const [state, dispatch] = usePageMainReducer();
+  const sectionMusicRef = useRef<HTMLDivElement>(null);
+  /* eslint-disable-next-line */
+  const onLoadComplete = () => {};
 
   return (
-    <main className="w-full">
-      <FixedHeader
-        title="Fantarka"
-        navOptions={[
-          { link: '#about', name: 'About' },
-          { link: '#music', name: 'Music' },
-        ]}
-      />
-      <BackgroundImage
-        imageUrl={state.tracks[state.activeTrack].artwork_url}
-        totalPixelContainers={50}
-        onLoadComplete={()=> dispatch({ type: PageMainActions.TITLES_ACTIVE, payload: 'active' })}
-      />
-      {state.titlesActive === 'active' && (
-        <BackgroundText inputText={state.tracks[state.activeTitle].title} />
-      )}
+    <PageMainProvider scrollRef={sectionMusicRef}>
+      <main ref={sectionMusicRef} className="overflow-scroll w-full h-full">
+        {/* <BackgroundText /> */}
+        <BackgroundImage onLoadComplete={onLoadComplete}></BackgroundImage>
 
-      <div className="absolute top-[calc(100%-60px)] flex flex-col items-center justify-center w-full gap-y-16 pb-8 abc">
-        <SectionMusic
-          activeTrack={state.activeTrack}
-          playerActive={state.playerActive}
-          tracks={state.tracks}
-          playTrack={(idx: number) =>
-            dispatch({ type: PageMainActions.ACTIVE_TRACK, payload: idx })
-          }
-        />
-        <SectionAbout />
-      </div>
-    </main>
+        <div className="min-h-[calc(100%-80px)]"></div>
+        <div className="abc flex flex-col items-center justify-center w-full gap-y-16 ">
+          <SectionMusic/>
+          <SectionAbout/>
+        </div>
+        <div className="min-h-[50%] bg-black"></div>
+      </main>
+    </PageMainProvider>
   );
 };

@@ -31,5 +31,5 @@ export const useAudioPlayer = (
     } else {
       audioElement.pause();
     }
-  }, [audioElement, audioState, streamURL]);
+  }, [audioElement, autoPlay, audioState, streamURL, onComplete]);
 };

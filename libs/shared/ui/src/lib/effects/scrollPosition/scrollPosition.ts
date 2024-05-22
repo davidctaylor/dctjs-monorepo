@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { RefObject, useEffect, useState } from 'react';
 
 export interface ScrollPosition {
   x: number;
@@ -7,7 +7,7 @@ export interface ScrollPosition {
 
 export const useScrollPosition = (
   trackPosition = true,
-  el?: HTMLElement
+  ref?: RefObject<HTMLElement | null>
 ) => {
   const [scrollPosition, setScrollPosition] = useState<ScrollPosition>({
     x: 0,
@@ -15,16 +15,24 @@ export const useScrollPosition = (
   });
   useEffect(() => {
     const updatePosition = () => {
-      trackPosition &&
-        setScrollPosition({ x: window.scrollX, y: window.scrollY });
+      if (trackPosition) {
+        setScrollPosition({
+          x: ref?.current?.scrollLeft || window.scrollX,
+          y: ref?.current?.scrollTop || window.scrollY,
+        });
+      }
     };
-    el
-      ? el.addEventListener('scroll', updatePosition, {})
+    const saveRef: HTMLElement | undefined | null = ref?.current;
+    saveRef
+      ? saveRef.addEventListener('scroll', updatePosition)
       : window.addEventListener('scroll', updatePosition);
     updatePosition();
-        
-    return () => window.removeEventListener('scroll', updatePosition);
-  }, [trackPosition, el]);
+
+    return () =>
+      saveRef
+        ? saveRef.removeEventListener('scroll', updatePosition)
+        : window.removeEventListener('scroll', updatePosition);
+  }, [trackPosition, ref]);
 
   return scrollPosition;
 };

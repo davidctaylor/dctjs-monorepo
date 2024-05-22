@@ -51,10 +51,10 @@ export const SectionAbout: React.FC<SectionAboutProps> = () => {
             iconButton={true}
             buttonStyle="text"
             onClick={() =>
-              window.open('https://instagram.com/fantarka', '_blank')
+              window.open('https://instagram.com/fantarka.official', '_blank')
             }
           >
-            <InstagramSVG className="bg-white scale-75 border-4 border-white rounded-full" />
+            <InstagramSVG className="bg-white scale-75 border-4 border-white rounded-full w-[40px] h-[40px]" />
           </DctButton>
 
           <DctButton

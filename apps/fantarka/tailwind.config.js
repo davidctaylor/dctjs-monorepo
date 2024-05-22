@@ -12,6 +12,9 @@ module.exports = {
   ],
   theme: {
     extend: {
+      animation: {
+        'image-opacity': 'opacity 3s linear',
+      },
       fontFamily: {
         sans: ['Syncopate', 'sans-serif'],
       },

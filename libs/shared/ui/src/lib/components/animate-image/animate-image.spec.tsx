@@ -1,10 +1,10 @@
 import { render } from '@testing-library/react';
 
-import BackgroundText from './background-text';
+import BackgroundImage from './animate-image';
 
-describe('BackgroundText', () => {
+describe('BackgroundImage', () => {
   it('should render successfully', () => {
-    const { baseElement } = render(<BackgroundText />);
+    const { baseElement } = render(<BackgroundImage />);
     expect(baseElement).toBeTruthy();
   });
 });

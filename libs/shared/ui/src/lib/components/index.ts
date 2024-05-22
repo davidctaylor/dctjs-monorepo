@@ -1,2 +1,2 @@
-export * from './error-boundary/error-boundary';
+export * from './animate-image';
 export * from './fixed-header/fixed-header';
