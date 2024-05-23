@@ -4,10 +4,9 @@ import { BackgroundImage } from '../background-image/background-image';
 import { SectionMusic } from '../section-music/section-music';
 import { SectionAbout } from '../section-about/section-about';
 
-import {
-  PageMainProvider,
-} from './page-main-provider';
+import { PageMainProvider } from './page-main-provider';
 import './page-main.css';
+import { SectionContols } from '../section-controls/section-controls';
 
 /* eslint-disable-next-line */
 export interface PageMainProps {}
@@ -19,14 +18,11 @@ export const PageMain = (props: PageMainProps) => {
 
   return (
     <PageMainProvider scrollRef={sectionMusicRef}>
-      <main ref={sectionMusicRef} className="overflow-scroll w-full h-full">
-        {/* <BackgroundText /> */}
+      <main ref={sectionMusicRef} className="overflow-scroll screen-w screen-h">
         <BackgroundImage onLoadComplete={onLoadComplete}></BackgroundImage>
-
-        <div className="min-h-[calc(100%-80px)]"></div>
-        <div className="abc flex flex-col items-center justify-center w-full gap-y-16 ">
-          <SectionMusic/>
-          <SectionAbout/>
+        <div className="abc flex flex-col items-center justify-center w-full gap-y-16 absolute left-0 top-[calc(100%-80px)]">
+          <SectionMusic />
+          <SectionAbout />
         </div>
         <div className="min-h-[50%] bg-black"></div>
       </main>

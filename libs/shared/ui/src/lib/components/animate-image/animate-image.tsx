@@ -164,7 +164,7 @@ export const AnimateImage: React.FC<AnimateImageProps> = ({
     <>
       {children}
       <canvas
-        className="w-full, h-full fixed top-0 left-[100%] -z-10"
+        className="w-full, h-full fixed top-0 left-[100%] rounded-2xl"
         ref={canvasRefHidden}
       ></canvas>
     </>

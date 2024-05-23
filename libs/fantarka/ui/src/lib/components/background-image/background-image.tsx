@@ -8,6 +8,8 @@ import {
 import { PageMainContext } from '../page-main/page-main-provider';
 import './background-image.css';
 import { SectionContols } from 'libs/fantarka/ui/src/lib/components/section-controls/section-controls';
+import { DctButton } from '@dctjs/react';
+import { MdSkipNext } from 'react-icons/md';
 
 export interface BackgroundImageProps {
   onLoadComplete: () => void;
@@ -43,14 +45,16 @@ export const BackgroundImage: React.FC<BackgroundImageProps> = ({
         imageUrl={pageCtx?.tracks[pageCtx.activeTitle].artworkUrl}
         onLoadComplete={onLoadComplete}
       >
-        <div
-          className={`fixed h-full top-[20%] -z-10 w-[calc(100%-16px)] sm:max-w-[610px] md:max-w-[736px] lg:max-w-[1008px] xl:max-w-[1264px] 2xl:max-w-[1520px] rounded-e-2xl`}
-        >
-          <div className="flex justify-center">
-            <canvas
-              className="aspect-square w-[200px] md:w-1/2 max-w-[400px]"
-              ref={canvasRef}
-            ></canvas>
+        <div className="fixed w-full h-full top-[20%] left-0 flex flex-col items-center">
+          <div
+            className={`w-[calc(100%-16px)] sm:max-w-[610px] md:max-w-[736px] lg:max-w-[1008px] xl:max-w-[1264px] 2xl:max-w-[1520px]`}
+          >
+            <div className="flex justify-center">
+              <canvas
+                className="aspect-square w-[200px] md:w-1/2 max-w-[400px] rounded-2xl"
+                ref={canvasRef}
+              ></canvas>
+            </div>
           </div>
           <SectionContols></SectionContols>
         </div>

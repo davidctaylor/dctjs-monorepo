@@ -37,18 +37,20 @@ export const SectionAbout: React.FC<SectionAboutProps> = () => {
 
         <div className="flex justify-center gap-8 items-center">
           <FacebookShareButton
-            className="[&>*:hover]:border-white [&>*:hover]:border [&>*:hover]:border-4 [&>*]:rounded-full"
+            className="[&>*:hover]:outline-white [&>*:hover]:outline [&>*]:rounded-full [&>*]:outline-offset-4 [&>*]:outline-1"
             url={SHARE_URL}
             children={<FacebookIcon size={ICON_SIZE} round={true} />}
           />
           <TwitterShareButton
-            className="[&>*:hover]:border-white [&>*:hover]:border [&>*:hover]:border-4 [&>*]:rounded-full"
+            className="[&>*:hover]:outline-white [&>*:hover]:outline [&>*]:rounded-full [&>*]:outline-offset-4 [&>*]:outline-1"
             url={SHARE_URL}
             children={<TwitterIcon size={ICON_SIZE} round={true} />}
           />
           <DctButton
             ariaLabel="Open link to the Fantarka page on the Instagram website"
+            className="[&>*:hover]:outline-white [&>*:hover]:outline [&>*]:rounded-full [&>*]:outline-offset-4 [&>*]:outline-1"
             iconButton={true}
+            ripple={true}
             buttonStyle="text"
             onClick={() =>
               window.open('https://instagram.com/fantarka.official', '_blank')
@@ -59,7 +61,9 @@ export const SectionAbout: React.FC<SectionAboutProps> = () => {
 
           <DctButton
             ariaLabel="Open link to the Fantarka page on the SoundCloud website"
+            className="[&>*:hover]:outline-white [&>*:hover]:outline [&>*]:rounded-full [&>*]:outline-offset-4 [&>*]:outline-1"
             iconButton={true}
+            ripple={true}
             buttonStyle="text"
             onClick={() =>
               window.open('https://soundcloud.com/fantarka', '_blank')

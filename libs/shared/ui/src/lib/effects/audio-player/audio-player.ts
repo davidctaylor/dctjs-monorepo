@@ -27,7 +27,7 @@ export const useAudioPlayer = (
       audioElement.pause();
       audioElement.currentTime = 0;
       audioElement.src = streamURL;
-      audioElement.play().catch(() => onComplete());
+      // audioElement.play().catch(() => onComplete());
     } else {
       audioElement.pause();
     }

@@ -10,7 +10,8 @@ export type TitlesRefreshType = 'active' | 'disabled' | 'pending';
 export enum ActiveTitleActions {
   ACTIVE_TRACK,
   NEXT_TITLE,
-  TITLE_ACTIVE,
+  PREVIOUS_TITLE,
+  REFRESH_ACTIVE,
   PLAYER_ACTIVE,
 }
 
@@ -35,7 +36,7 @@ const initialState: ActiveTitleState = {
   activeTitle: 0,
   activeTrack: 1,
   playerActive: false,
-  refreshActive: 'pending',
+  refreshActive: 'active',
   tracks: FANTARKA_TRACKS,
 };
 
@@ -57,13 +58,13 @@ export const PageMainProvider = ({
   useInterval(
     () => {
       if (state.refreshActive === 'pending') {
-        dispatch({ type: ActiveTitleActions.TITLE_ACTIVE, payload: 'active' });
+        dispatch({ type: ActiveTitleActions.REFRESH_ACTIVE, payload: 'active' });
         dispatch({ type: ActiveTitleActions.NEXT_TITLE, payload: undefined });
       } else {
         dispatch({ type: ActiveTitleActions.NEXT_TITLE, payload: undefined });
       }
     },
-    state.playerActive ? null : 1000 * 5
+    state.playerActive || state.refreshActive !== 'active' ? null : 1000 * 5
   );
 
   return (
@@ -106,10 +107,17 @@ const pageTitleReducer = (
       return { ...state, activeTitle };
     }
 
+    case ActiveTitleActions.PREVIOUS_TITLE: {
+      let activeTitle = state.activeTitle;
+      activeTitle =
+        activeTitle - 1 > 0  ? activeTitle - 1 : 0;
+      return { ...state, activeTitle };
+    }
+
     case ActiveTitleActions.PLAYER_ACTIVE:
       return { ...state, playerActive: action.payload as boolean };
 
-    case ActiveTitleActions.TITLE_ACTIVE:
+    case ActiveTitleActions.REFRESH_ACTIVE:
       return { ...state, refreshActive: action.payload as TitlesRefreshType };
 
     default: {

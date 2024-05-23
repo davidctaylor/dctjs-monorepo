@@ -33,7 +33,7 @@ const Card: React.FC<CardProps> = ({
 
   return (
     <DctCard
-      className="border hover:border-[#317caa] focus-within:text-black focus:text-black"
+      className="border hover:border-fantarka-blue focus-within:text-black focus:text-black"
       border="outlined"
       onClick={() => {
         dispatch &&

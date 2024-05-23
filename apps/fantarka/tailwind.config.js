@@ -18,6 +18,11 @@ module.exports = {
       fontFamily: {
         sans: ['Syncopate', 'sans-serif'],
       },
+      colors: {
+        'fantarka-blue': {
+          DEFAULT: '#317caa'
+        }
+      }
     },
   },
   plugins: [],
