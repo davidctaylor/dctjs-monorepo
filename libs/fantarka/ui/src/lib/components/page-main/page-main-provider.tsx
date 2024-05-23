@@ -104,14 +104,14 @@ const pageTitleReducer = (
       let activeTitle = state.activeTitle;
       activeTitle =
         activeTitle + 1 < FANTARKA_TRACKS.length ? activeTitle + 1 : 0;
-      return { ...state, activeTitle };
+      return { ...state, activeTitle, activeTrack: state.playerActive ? activeTitle : state.activeTrack };
     }
 
     case ActiveTitleActions.PREVIOUS_TITLE: {
       let activeTitle = state.activeTitle;
       activeTitle =
         activeTitle - 1 > 0  ? activeTitle - 1 : 0;
-      return { ...state, activeTitle };
+      return { ...state, activeTitle, activeTrack: state.playerActive ? activeTitle : state.activeTrack};
     }
 
     case ActiveTitleActions.PLAYER_ACTIVE:

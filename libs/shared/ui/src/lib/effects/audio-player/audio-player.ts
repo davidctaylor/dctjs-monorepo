@@ -5,9 +5,9 @@ type AudioPlayerStateType = 'play' | 'pause';
 
 export const useAudioPlayer = (
   autoPlay: boolean,
-  audioState: {state: AudioPlayerStateType},
+  audioState: { state: AudioPlayerStateType },
   streamURL: string,
-  onComplete: () => void,
+  onComplete: () => void
 ) => {
   const [audioElement] = useState<HTMLAudioElement>(new Audio());
   const audioInitialized = useRef<boolean>(false);
@@ -27,7 +27,10 @@ export const useAudioPlayer = (
       audioElement.pause();
       audioElement.currentTime = 0;
       audioElement.src = streamURL;
-      // audioElement.play().catch(() => onComplete());
+      audioElement.play().catch((e) => {
+        console.log(`play error ${streamURL} ` , e);
+        onComplete();
+      });
     } else {
       audioElement.pause();
     }

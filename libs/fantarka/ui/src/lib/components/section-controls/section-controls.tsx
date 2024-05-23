@@ -25,10 +25,7 @@ export const SectionContols: React.FC<SectionControlsProps> = () => {
         disabled={pageCtx?.activeTitle === 0}
         ripple={true}
         buttonStyle="text"
-        onClick={() => {
-          dispatch && dispatch({ type: ActiveTitleActions.PREVIOUS_TITLE, payload: null });
-          dispatch && dispatch({ type: ActiveTitleActions.REFRESH_ACTIVE, payload: 'disabled' })
-        }}
+        onClick={() => dispatch && dispatch({ type: ActiveTitleActions.PREVIOUS_TITLE, payload: null })}
       >
         <MdSkipPrevious size={50} />
       </DctButton>
@@ -39,7 +36,7 @@ export const SectionContols: React.FC<SectionControlsProps> = () => {
         ripple={true}
         buttonStyle="text"
         onClick={() => {
-          dispatch && dispatch({ type: ActiveTitleActions.ACTIVE_TRACK, payload: pageCtx?.activeTitle })
+          dispatch && dispatch({ type: ActiveTitleActions.ACTIVE_TRACK, payload: pageCtx?.activeTitle });
         }}
       >
         {pageCtx?.playerActive && (<MdStopCircle size={50} />)}
@@ -53,10 +50,7 @@ export const SectionContols: React.FC<SectionControlsProps> = () => {
         disabled={pageCtx?.activeTitle === len - 1}
         ripple={true}
         buttonStyle="text"
-        onClick={() => {
-          dispatch && dispatch({ type: ActiveTitleActions.NEXT_TITLE, payload: null });
-          dispatch && dispatch({ type: ActiveTitleActions.REFRESH_ACTIVE, payload: 'disabled' })
-        }}
+        onClick={() => dispatch && dispatch({ type: ActiveTitleActions.NEXT_TITLE, payload: null })}
       >
         <MdSkipNext size={50} />
       </DctButton>

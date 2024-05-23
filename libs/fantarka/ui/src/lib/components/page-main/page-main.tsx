@@ -20,11 +20,10 @@ export const PageMain = (props: PageMainProps) => {
     <PageMainProvider scrollRef={sectionMusicRef}>
       <main ref={sectionMusicRef} className="overflow-scroll screen-w screen-h">
         <BackgroundImage onLoadComplete={onLoadComplete}></BackgroundImage>
-        <div className="abc flex flex-col items-center justify-center w-full gap-y-16 absolute left-0 top-[calc(100%-80px)]">
+        <div className="gradient flex flex-col items-center justify-center w-full gap-y-16 absolute left-0 top-[calc(100%-80px)] pb-12">
           <SectionMusic />
           <SectionAbout />
         </div>
-        <div className="min-h-[50%] bg-black"></div>
       </main>
     </PageMainProvider>
   );
