@@ -4,7 +4,7 @@ export const FANTARKA_TRACKS: Track[] = [
   {
     title: 'Get Funky',
     artworkUrl: '/assets/images/get-funky-final.webp',
-    audioUrl: '/assets/audio/wave/get-funky-2023.wav',
+    audioUrl: '/assets/audio/get-funky-2023.wav',
     description: 'Ambient track',
   },
   {

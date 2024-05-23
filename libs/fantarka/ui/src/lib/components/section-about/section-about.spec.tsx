@@ -1,10 +1,10 @@
 import { render } from '@testing-library/react';
 
-import BackgroundText from './background-text';
+import { SectionAbout } from './section-about';
 
-describe('BackgroundText', () => {
+describe('SectionAbort', () => {
   it('should render successfully', () => {
-    const { baseElement } = render(<BackgroundText />);
+    const { baseElement } = render(<SectionAbout />);
     expect(baseElement).toBeTruthy();
   });
 });
