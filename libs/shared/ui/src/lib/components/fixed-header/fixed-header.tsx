@@ -25,6 +25,8 @@ export function FixedHeader(props: FixedHeaderProps) {
         position: 'fixed',
         backgroundColor: `rgba(0, 0, 0, 1)`,
         boxShadow: 'black 0px 0px 30px 32px',
+        width: `${navbarRef.current?.getBoundingClientRect().width}px`,
+        maxWidth: '' + navbarRef.current?.getBoundingClientRect().width,
       });
     } else if (
       headerStyle.position === 'fixed' &&

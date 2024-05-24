@@ -43,7 +43,7 @@ const Card: React.FC<CardProps> = ({
     >
       <DctRipple />
       <DctCardContent>
-        <div className="flex flex-row items-center justify-between gap-x-4 m-w-[410px]">
+        <div className="flex flex-row items-center justify-between gap-x-4 md:m-w-[410px]">
           {activeTrack === idx && playerActive && (
             <div className="w-[50px] h-[50px]">
               <MdStopCircle size={50} />
@@ -88,7 +88,7 @@ export const SectionMusic: React.FC<SectionMusicProps> = () => {
     ));
 
   return (
-    <section id="music" className="flex flex-col justify-center gap-y-16 p-0">
+    <section id="music" className="flex flex-col justify-center gap-y-8 px-4">
       <h2 className="font-sans text-center text-white text-2xl">Music</h2>
       <Cards />
     </section>

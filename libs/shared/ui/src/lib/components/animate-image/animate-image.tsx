@@ -40,6 +40,7 @@ export const AnimateImage: React.FC<AnimateImageProps> = ({
     const img = new Image();
     img.onload = () => setImageData({ image: img, options });
     img.src = imageUrl;
+    img.style.borderRadius = '1rem';
     img.crossOrigin = 'anonymous';
   }, [imageUrl, options]);
 

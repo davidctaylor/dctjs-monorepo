@@ -6,10 +6,8 @@ import {
   AnimateImageAnimationStyle,
 } from '@dctjs-monorepo/shared-ui';
 import { PageMainContext } from '../page-main/page-main-provider';
+import { SectionContols } from '../section-controls/section-controls';
 import './background-image.css';
-import { SectionContols } from 'libs/fantarka/ui/src/lib/components/section-controls/section-controls';
-import { DctButton } from '@dctjs/react';
-import { MdSkipNext } from 'react-icons/md';
 
 export interface BackgroundImageProps {
   onLoadComplete: () => void;
@@ -20,8 +18,8 @@ const ANIMATE_OPTIONS: Record<
   { style: AnimateImageAnimationStyle; pixels: number }
 > = {
   disabled: { style: 'disabled', pixels: 0 },
-  center: { style: 'center', pixels: 10 },
-  random: { style: 'center', pixels: 10 },
+  center: { style: 'center', pixels: 5 },
+  random: { style: 'center', pixels: 5 },
 };
 
 export const BackgroundImage: React.FC<BackgroundImageProps> = ({
@@ -32,33 +30,31 @@ export const BackgroundImage: React.FC<BackgroundImageProps> = ({
   const isTabletOrMobile = useMediaQuery({ query: '(max-width: 768px)' });
 
   return (
-    <>
-      <AnimateImage
-        options={
-          isTabletOrMobile
-            ? ANIMATE_OPTIONS['disabled']
-            : Math.round(Math.random()) === 0
-            ? ANIMATE_OPTIONS['center']
-            : ANIMATE_OPTIONS['random']
-        }
-        canvasRef={canvasRef}
-        imageUrl={pageCtx?.tracks[pageCtx.activeTitle].artworkUrl}
-        onLoadComplete={onLoadComplete}
-      >
-        <div className="fixed w-full h-full top-[20%] left-0 flex flex-col items-center">
-          <div
-            className={`w-[calc(100%-16px)] sm:max-w-[610px] md:max-w-[736px] lg:max-w-[1008px] xl:max-w-[1264px] 2xl:max-w-[1520px]`}
-          >
-            <div className="flex justify-center">
-              <canvas
-                className="aspect-square w-[200px] md:w-1/2 max-w-[400px] rounded-2xl"
-                ref={canvasRef}
-              ></canvas>
-            </div>
+    <AnimateImage
+      options={
+        isTabletOrMobile
+          ? ANIMATE_OPTIONS['disabled']
+          : Math.round(Math.random()) === 0
+          ? ANIMATE_OPTIONS['center']
+          : ANIMATE_OPTIONS['random']
+      }
+      canvasRef={canvasRef}
+      imageUrl={pageCtx?.tracks[pageCtx.activeTitle].artworkUrl}
+      onLoadComplete={onLoadComplete}
+    >
+      <div className="fixed w-full h-full top-[20%] left-0 flex flex-col items-center">
+        <div
+          className={`w-[calc(100%-16px)] sm:max-w-[610px] md:max-w-[736px] lg:max-w-[1008px] xl:max-w-[1264px] 2xl:max-w-[1520px]`}
+        >
+          <div className="flex justify-center">
+            <canvas
+              className="aspect-square w-[200px] md:w-1/2 max-w-[400px] rounded-2xl"
+              ref={canvasRef}
+            ></canvas>
           </div>
-          <SectionContols></SectionContols>
         </div>
-      </AnimateImage>
-    </>
+        <SectionContols></SectionContols>
+      </div>
+    </AnimateImage>
   );
 };
