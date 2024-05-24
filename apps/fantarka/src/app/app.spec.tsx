@@ -9,7 +9,8 @@ describe('App', () => {
   });
 
   it('should have a greeting as the title', () => {
-    const { getByText } = render(<App />);
-    expect(getByText(/Welcome fantarka/gi)).toBeTruthy();
+    const { getByText, getByRole } = render(<App />);
+    const title = getByRole('heading', {level: 1});
+    expect(title.textContent).toEqual('Fantarka');
   });
 });

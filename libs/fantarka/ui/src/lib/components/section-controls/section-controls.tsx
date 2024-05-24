@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
-import { DctButton } from '@dctjs/react';
 import { MdPlayCircle, MdSkipNext, MdSkipPrevious, MdStopCircle } from 'react-icons/md';
+import { DctButton } from '@dctjs/react';
+
 import {
   ActiveTitleActions,
   PageMainContext,

@@ -6,13 +6,6 @@ import { PageMainContext } from '../page-main/page-main-provider';
 /* eslint-disable-next-line */
 interface BackgroundTextProps {}
 
-interface Pixel {
-  x: number;
-  y: number;
-  direction: number;
-  speed: number;
-}
-
 export const BackgroundText: React.FC<BackgroundTextProps> = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const pageCtx = useContext(PageMainContext);

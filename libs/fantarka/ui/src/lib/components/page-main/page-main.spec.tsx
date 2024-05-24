@@ -1,6 +1,6 @@
 import { render } from '@testing-library/react';
 
-import PageMain from './page-main';
+import { PageMain } from './page-main';
 
 describe('PageMain', () => {
   it('should render successfully', () => {
