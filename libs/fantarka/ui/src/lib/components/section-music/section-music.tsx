@@ -35,13 +35,13 @@ const Card: React.FC<CardProps> = ({
     <DctCard
       className="border hover:border-fantarka-blue focus-within:text-black focus:text-black"
       border="outlined"
+      ripple={true}
       onClick={() => {
         dispatch &&
           dispatch({ type: ActiveTitleActions.ACTIVE_TRACK, payload: idx });
       }}
       ref={imageRef}
     >
-      <DctRipple />
       <DctCardContent>
         <div className="flex flex-row items-center justify-between gap-x-4 md:m-w-[410px]">
           {activeTrack === idx && playerActive && (
@@ -88,8 +88,11 @@ export const SectionMusic: React.FC<SectionMusicProps> = () => {
     ));
 
   return (
-    <section id="music" className="flex flex-col justify-center gap-y-8 px-4">
-      <h2 className="font-sans text-center text-white text-2xl">Music</h2>
+    <section
+      id="music"
+      className="flex flex-col justify-center gap-y-8 px-4 text-white"
+    >
+      <h2 className="font-sans text-center text-2xl">Music</h2>
       <Cards />
     </section>
   );

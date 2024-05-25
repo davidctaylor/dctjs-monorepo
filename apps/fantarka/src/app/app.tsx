@@ -3,7 +3,6 @@ import { PageMain } from '@dctjs-monorepo/fantarka-ui';
 import { FixedHeader } from '@dctjs-monorepo/shared-ui';
 
 const App: React.FC = () => {
-
   return (
     <div className="container mx-auto px-4 lg:px-2 flex flex-col items-center bg-transparent w-screen h-screen">
       <FixedHeader
@@ -11,9 +10,10 @@ const App: React.FC = () => {
         navOptions={[
           { link: '#about', name: 'About' },
           { link: '#music', name: 'Music' },
+          { link: '#video', name: 'Video' },
         ]}
       />
-      <PageMain/>
+      <PageMain />
     </div>
   );
 };

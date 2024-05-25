@@ -1,8 +1,9 @@
 import { useRef } from 'react';
 
 import { BackgroundImage } from '../background-image/background-image';
-import { SectionMusic } from '../section-music/section-music';
 import { SectionAbout } from '../section-about/section-about';
+import { SectionMusic } from '../section-music/section-music';
+import { SectionVideo } from '../section-video/section-video';
 import { PageMainProvider } from './page-main-provider';
 import './page-main.css';
 
@@ -20,6 +21,7 @@ export const PageMain = (props: PageMainProps) => {
         <BackgroundImage onLoadComplete={onLoadComplete}></BackgroundImage>
         <div className="gradient flex flex-col items-center justify-center w-full gap-y-16 absolute left-0 top-[calc(100%-60px)] pb-12">
           <SectionMusic />
+          <SectionVideo />
           <SectionAbout />
         </div>
       </main>

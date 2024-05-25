@@ -43,7 +43,7 @@ const initialState: ActiveTitleState = {
 export const PageMainProvider = ({
   children,
 }: {
-  children: React.ReactNode,
+  children: React.ReactNode;
   scrollRef?: RefObject<HTMLElement | null>;
 }) => {
   const [state, dispatch] = useReducer(pageTitleReducer, initialState);
@@ -55,17 +55,17 @@ export const PageMainProvider = ({
     () => dispatch({ type: ActiveTitleActions.PLAYER_ACTIVE, payload: false })
   );
 
-  useInterval(
-    () => {
-      if (state.refreshActive === 'pending') {
-        dispatch({ type: ActiveTitleActions.REFRESH_ACTIVE, payload: 'active' });
-        dispatch({ type: ActiveTitleActions.NEXT_TITLE, payload: undefined });
-      } else {
-        dispatch({ type: ActiveTitleActions.NEXT_TITLE, payload: undefined });
-      }
-    },
-    state.playerActive || state.refreshActive !== 'active' ? null : 1000 * 5
-  );
+  // useInterval(
+  //   () => {
+  //     if (state.refreshActive === 'pending') {
+  //       dispatch({ type: ActiveTitleActions.REFRESH_ACTIVE, payload: 'active' });
+  //       dispatch({ type: ActiveTitleActions.NEXT_TITLE, payload: undefined });
+  //     } else {
+  //       dispatch({ type: ActiveTitleActions.NEXT_TITLE, payload: undefined });
+  //     }
+  //   },
+  //   state.playerActive || state.refreshActive !== 'active' ? null : 1000 * 5
+  // );
 
   return (
     <PageMainContext.Provider value={state}>
@@ -104,14 +104,21 @@ const pageTitleReducer = (
       let activeTitle = state.activeTitle;
       activeTitle =
         activeTitle + 1 < FANTARKA_TRACKS.length ? activeTitle + 1 : 0;
-      return { ...state, activeTitle, activeTrack: state.playerActive ? activeTitle : state.activeTrack };
+      return {
+        ...state,
+        activeTitle,
+        activeTrack: state.playerActive ? activeTitle : state.activeTrack,
+      };
     }
 
     case ActiveTitleActions.PREVIOUS_TITLE: {
       let activeTitle = state.activeTitle;
-      activeTitle =
-        activeTitle - 1 > 0  ? activeTitle - 1 : 0;
-      return { ...state, activeTitle, activeTrack: state.playerActive ? activeTitle : state.activeTrack};
+      activeTitle = activeTitle - 1 > 0 ? activeTitle - 1 : 0;
+      return {
+        ...state,
+        activeTitle,
+        activeTrack: state.playerActive ? activeTitle : state.activeTrack,
+      };
     }
 
     case ActiveTitleActions.PLAYER_ACTIVE:
