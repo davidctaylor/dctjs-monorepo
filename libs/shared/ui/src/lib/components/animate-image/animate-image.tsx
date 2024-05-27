@@ -23,12 +23,18 @@ export const AnimateImage: React.FC<AnimateImageProps> = ({
   } | null>(null);
   const canvasRefHidden = useRef<HTMLCanvasElement>(null);
   const canvasInitialized = useRef<boolean>(false);
+  const animationActive = useRef<boolean>(false);
   const previousImage = useRef<string | undefined>();
   const [imageData, setImageData] = useState<{
     image: HTMLImageElement | undefined;
     options: AnimateImageAnimationOptions;
   }>();
   const [pixels, setPixels] = useState<PixelContainer[]>([]);
+
+  const onAnimationComplete = () => {
+    animationActive.current = false;
+    onLoadComplete();
+  };
 
   useEffect(() => {
     if (!imageUrl || imageUrl === previousImage.current) {
@@ -89,12 +95,12 @@ export const AnimateImage: React.FC<AnimateImageProps> = ({
       }
     }
 
-    setPixels(pixelContainers);
+    setPixels(() => pixelContainers);
   }, [imageData, options.pixels]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
-    if (options.style === 'disabled' || !canvas) {
+    if (options.style === 'disabled' || !canvas || animationActive.current) {
       return;
     }
 
@@ -117,12 +123,13 @@ export const AnimateImage: React.FC<AnimateImageProps> = ({
         canvasRef.current.height = canvasRefHidden.current.height;
         canvasInitialized.current = true;
       }
+      animationActive.current = true;
       if (options.style === 'center') {
         animationCenter(
           ctx,
           pixels,
           canvasData.current?.pixelSize || 0,
-          onLoadComplete
+          onAnimationComplete
         );
       }
 
@@ -131,7 +138,7 @@ export const AnimateImage: React.FC<AnimateImageProps> = ({
           ctx,
           pixels,
           canvasData.current?.pixelSize || 0,
-          onLoadComplete
+          onAnimationComplete
         );
       }
     }

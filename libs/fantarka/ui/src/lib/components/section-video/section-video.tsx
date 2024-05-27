@@ -55,11 +55,16 @@ export const SectionVideo: React.FC<SectionVideoProps> = () => {
                   buttonStyle="text"
                   onClick={() => {
                     setVideoPlaying(!videoPlaying);
-                    dispatch &&
+                    if (dispatch) {
                       dispatch({
                         type: ActiveTitleActions.PLAYER_ACTIVE,
                         payload: false,
                       });
+                      dispatch({
+                        type: ActiveTitleActions.REFRESH_ACTIVE,
+                        payload: 'disabled',
+                      });
+                    }
                   }}
                 >
                   {videoPlaying && <MdStopCircle size={50} />}

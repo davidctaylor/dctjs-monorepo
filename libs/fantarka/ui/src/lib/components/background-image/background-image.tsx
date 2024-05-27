@@ -19,7 +19,7 @@ const ANIMATE_OPTIONS: Record<
 > = {
   disabled: { style: 'disabled', pixels: 0 },
   center: { style: 'center', pixels: 5 },
-  random: { style: 'center', pixels: 5 },
+  random: { style: 'random', pixels: 5 },
 };
 
 export const BackgroundImage: React.FC<BackgroundImageProps> = ({
