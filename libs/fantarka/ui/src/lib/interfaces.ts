@@ -1,6 +1,7 @@
 export interface Track {
   title: string;
-  artworkUrl: string | null;
+  artworkUrl: string;
+  artworkDescription: string;
   audioUrl: string;
   description: string;
 }

@@ -48,6 +48,9 @@ export const BackgroundImage: React.FC<BackgroundImageProps> = ({
         >
           <div className="flex justify-center">
             <canvas
+              aria-label={
+                pageCtx?.tracks[pageCtx.activeTitle].artworkDescription
+              }
               className="aspect-square w-[200px] md:w-1/2 max-w-[400px] rounded-2xl"
               ref={canvasRef}
             ></canvas>

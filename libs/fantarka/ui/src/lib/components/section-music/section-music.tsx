@@ -35,6 +35,9 @@ const Card: React.FC<CardProps> = ({
     <DctCard
       className="border hover:border-fantarka-blue focus-within:text-black focus:text-black"
       border="outlined"
+      aria-label={`${
+        activeTrack === idx && playerActive ? 'Stop' : 'Play'
+      } track ${track.title}`}
       ripple={true}
       onClick={() => {
         dispatch &&

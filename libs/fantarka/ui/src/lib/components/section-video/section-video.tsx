@@ -46,13 +46,14 @@ export const SectionVideo: React.FC<SectionVideoProps> = () => {
               />
               <div className="flex flex-col md:flex-row gap-4">
                 <DctButton
-                  ariaLabel="Play track"
+                  ariaLabel={`${
+                    videoPlaying ? 'Stop' : 'Play'
+                  } video Get Funky`}
                   className="w-[50px] [&>*:hover]:outline-fantarka-blue [&>*:hover]:outline [&>*]:rounded-full [&>*]:outline-offset-4 [&>*]:outline-1"
                   iconButton={true}
                   ripple={true}
                   buttonStyle="text"
                   onClick={() => {
-                    // videoPlaying.current = !videoPlaying.current;
                     setVideoPlaying(!videoPlaying);
                     dispatch &&
                       dispatch({
